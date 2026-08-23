@@ -3,6 +3,7 @@ session_start();
 require 'php/db.php';
 
 $error = "";
+$success = isset($_GET['registered']) ? "Registration successful. Please log in." : "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -22,30 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Invalid username or password.";
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <h2>Login</h2>
-  <?php if (isset($_GET['registered'])): ?>
-    <p style="color:green;">Registration successful. Please log in.</p>
-  <?php endif; ?>
-  <?php if ($error): ?>
-    <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-  <?php endif; ?>
 
-  <form method="POST" id="loginForm">
-    <label>Username: <input type="text" name="username" required></label><br>
-    <label>Password: <input type="password" name="password" id="password" required></label><br>
-    <button type="submit">Login</button>
-  </form>
-
-  <p>Don't have an account? <a href="register.php">Register</a></p>
-  <script src="js/validation.js"></script>
-</body>
-</html>
+$pageTitle = "Login";
+require 'includes/header.php';
+require 'includes/login_form.php';
+require 'includes/footer.php';
