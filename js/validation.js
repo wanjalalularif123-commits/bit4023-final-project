@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (password !== confirmPassword) {
         e.preventDefault();
         alert("Passwords do not match.");
+        return;
       }
 
       if (password.length < 6) {

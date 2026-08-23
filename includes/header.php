@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home - [Your App Name]</title>
+  <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : '[Your App Name]'; ?></title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,14 +12,10 @@
       <a href="index.html">Home</a>
       <a href="login.php">Login</a>
       <a href="register.php">Register</a>
+      <?php if (isset($_SESSION['username'])): ?>
+        <a href="dashboard.php">Dashboard</a>
+        <a href="logout.php">Logout</a>
+      <?php endif; ?>
     </nav>
   </header>
   <main>
-    <h2>Welcome</h2>
-    <p>Describe your application here.</p>
-  </main>
-  <footer>
-    <p>&copy; 2026 BIT4023 Final Project</p>
-  </footer>
-</body>
-</html>
