@@ -1,13 +1,28 @@
 <?php
-require 'php/session.php'; // redirects to login.php if not logged in
-require 'php/db.php';
+require "config.php";
 
-$pageTitle = "Dashboard";
-require 'includes/header.php';
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit;
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Course Registration System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<h2>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
+<?php require "header.php"; ?>
 
-<?php require 'includes/module.php'; // Member 4: application module (list/CRUD) ?>
+<main>
+  <h2>Welcome, <?= htmlspecialchars($_SESSION["full_name"]) ?></h2>
+  <p>This is your dashboard. Course listing and registration features go here.</p>
+</main>
 
-<?php require 'includes/footer.php'; ?>
+<?php require "footer.php"; ?>
+
+</body>
+</html>
