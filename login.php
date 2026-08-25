@@ -1,30 +1,71 @@
 <?php
-session_start();
-require 'php/db.php';
+require "config.php";
 
-$error = "";
-$success = isset($_GET['registered']) ? "Registration successful. Please log in." : "";
+$errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST["email"] ?? "");
+    $password = $_POST["password"] ?? "";
 
-    $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->bind_result($id, $hash);
-
-    if ($stmt->fetch() && password_verify($password, $hash)) {
-        $_SESSION['user_id'] = $id;
-        $_SESSION['username'] = $username;
-        header("Location: dashboard.php");
-        exit;
+    if ($email === "" || $password === "") {
+        $errors[] = "Please enter both email and password.";
     } else {
-        $error = "Invalid username or password.";
+        $stmt = $pdo->prepare("SELECT id, full_name, password_hash FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user["password_hash"])) {
+            $_SESSION["user_id"] = $user["id"];
+            $_SESSION["full_name"] = $user["full_name"];
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $errors[] = "Invalid email or password.";
+        }
     }
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Course Registration System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-$pageTitle = "Login";
-require 'includes/header.php';
-require 'includes/login_form.php';
-require 'includes/footer.php';
+<?php require "header.php"; ?>
+
+<main>
+  <div class="form-container">
+    <h2>Log In</h2>
+
+    <?php if (!empty($errors)): ?>
+      <div class="alert alert-error">
+        <?php foreach ($errors as $err): ?>
+          <div><?= htmlspecialchars($err) ?></div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
+    <form method="POST" action="login.php" novalidate>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email"
+               value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn">Log In</button>
+    </form>
+
+    <p class="form-footer">Don't have an account? <a href="register.php">Register here</a></p>
+  </div>
+</main>
+
+<?php require "footer.php"; ?>
+
+</body>
+</html>
