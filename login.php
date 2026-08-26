@@ -30,11 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <title>Login - Course Registration System</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<?php require "header.php"; ?>
+<?php require "includes/header.php"; ?>
 
 <main>
   <div class="form-container">
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </div>
 </main>
 
-<?php require "footer.php"; ?>
+<?php require "includes/footer.php"; ?>
 
 </body>
 </html>
