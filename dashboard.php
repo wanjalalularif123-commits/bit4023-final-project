@@ -11,18 +11,18 @@ if (!isset($_SESSION["user_id"])) {
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Course Registration System</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<?php require "header.php"; ?>
+<?php require "includes/header.php"; ?>
 
 <main>
   <h2>Welcome, <?= htmlspecialchars($_SESSION["full_name"]) ?></h2>
   <p>This is your dashboard. Course listing and registration features go here.</p>
 </main>
 
-<?php require "footer.php"; ?>
+<?php require "includes/footer.php"; ?>
 
 </body>
 </html>
