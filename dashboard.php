@@ -1,5 +1,6 @@
 <?php
 require "config.php";
+require "php/db.php";
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -19,7 +20,7 @@ if (!isset($_SESSION["user_id"])) {
 
 <main>
   <h2>Welcome, <?= htmlspecialchars($_SESSION["full_name"]) ?></h2>
-  <p>This is your dashboard. Course listing and registration features go here.</p>
+  <?php require "includes/module.php"; ?>
 </main>
 
 <?php require "includes/footer.php"; ?>

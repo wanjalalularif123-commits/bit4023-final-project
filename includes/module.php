@@ -1,36 +1,35 @@
 <?php
-// Member 4: Application Module (Core Feature + CRUD)
-// $conn is already available here (from db.php, required in dashboard.php)
-//
-// Example for a "list" feature — replace "items" with your actual table name
-// once you've decided on your application (e.g. courses, appointments, notices).
-
-$result = $conn->query("SELECT * FROM items ORDER BY created_at DESC");
+$result = $conn->query("SELECT * FROM courses ORDER BY id DESC");
 ?>
 
-<h3>Your Items</h3>
-
+<h3>Course List</h3>
 <table>
   <tr>
-    <th>Title</th>
-    <th>Description</th>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Schedule</th>
+    <th>Seats</th>
     <th>Actions</th>
   </tr>
   <?php while ($row = $result->fetch_assoc()): ?>
     <tr>
-      <td><?php echo htmlspecialchars($row['title']); ?></td>
-      <td><?php echo htmlspecialchars($row['description']); ?></td>
+      <td><?php echo htmlspecialchars($row['course_code']); ?></td>
+      <td><?php echo htmlspecialchars($row['course_name']); ?></td>
+      <td><?php echo htmlspecialchars($row['schedule']); ?></td>
+      <td><?php echo $row['seats_available']; ?></td>
       <td>
         <a href="module_edit.php?id=<?php echo $row['id']; ?>">Edit</a> |
-        <a href="module_delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Delete this item?')">Delete</a>
+        <a href="module_delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Delete this course?')">Delete</a>
       </td>
     </tr>
   <?php endwhile; ?>
 </table>
 
-<h3>Add New Item</h3>
+<h3>Add New Course</h3>
 <form method="POST" action="module_create.php">
-  <label>Title: <input type="text" name="title" required></label>
-  <label>Description: <textarea name="description"></textarea></label>
+  <label>Course Code: <input type="text" name="course_code" required></label>
+  <label>Course Name: <input type="text" name="course_name" required></label>
+  <label>Schedule: <input type="text" name="schedule" required></label>
+  <label>Seats Available: <input type="number" name="seats_available" required></label>
   <button type="submit">Add</button>
 </form>
