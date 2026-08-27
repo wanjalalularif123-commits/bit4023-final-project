@@ -2,6 +2,11 @@
 require 'php/session.php';
 require 'php/db.php';
 
+if (($_SESSION['role'] ?? '') !== 'lecturer') {
+    header("Location: dashboard.php");
+    exit;
+}
+
 // Member 4: handle Create
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $course_code = trim($_POST['course_code']);

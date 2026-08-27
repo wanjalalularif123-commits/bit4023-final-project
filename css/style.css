@@ -300,3 +300,74 @@ footer {
     text-align: center;
   }
 }
+/* Data tables (course lists) */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+}
+
+.data-table th {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.data-table tr:nth-child(even) {
+  background: #fbfaf7;
+}
+
+.data-table tr:hover {
+  background: #f0efe9;
+}
+
+.data-table a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+/* Role picker on register form */
+.role-options {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.4rem;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.role-option input {
+  width: auto;
+}
+
+/* Status badges in the course table */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #e3f0e9;
+  color: var(--color-primary-dark);
+}
+
+.badge.full {
+  background: #f6e3e3;
+  color: #a33a3a;
+}

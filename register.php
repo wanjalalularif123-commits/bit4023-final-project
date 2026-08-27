@@ -9,9 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
     $confirm = $_POST["confirm_password"] ?? "";
+    $role = $_POST["role"] ?? "";
 
     if ($fullName === "" || $email === "" || $password === "") {
         $errors[] = "All fields are required.";
+    }
+    if (!in_array($role, ["student", "lecturer"], true)) {
+        $errors[] = "Please select whether you are a student or a lecturer.";
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Please enter a valid email address.";
@@ -31,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare(
-                "INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)"
+                "INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)"
             );
-            $stmt->execute([$fullName, $email, $hash]);
+            $stmt->execute([$fullName, $email, $hash, $role]);
             $success = true;
         }
     }
@@ -86,6 +90,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <div class="form-group">
         <label for="confirm_password">Confirm Password</label>
         <input type="password" id="confirm_password" name="confirm_password" required>
+      </div>
+      <div class="form-group">
+        <label>I am registering as:</label>
+        <div class="role-options">
+          <label class="role-option">
+            <input type="radio" name="role" value="student"
+              <?= (($_POST['role'] ?? '') === 'student' || !isset($_POST['role'])) ? 'checked' : '' ?>>
+            Student
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="lecturer"
+              <?= (($_POST['role'] ?? '') === 'lecturer') ? 'checked' : '' ?>>
+            Lecturer
+          </label>
+        </div>
       </div>
       <button type="submit" class="btn">Register</button>
     </form>

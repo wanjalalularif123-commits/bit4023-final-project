@@ -10,13 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($email === "" || $password === "") {
         $errors[] = "Please enter both email and password.";
     } else {
-        $stmt = $pdo->prepare("SELECT id, full_name, password_hash FROM users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id, full_name, password_hash, role FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user["password_hash"])) {
             $_SESSION["user_id"] = $user["id"];
             $_SESSION["full_name"] = $user["full_name"];
+            $_SESSION["role"] = $user["role"];
             header("Location: dashboard.php");
             exit;
         } else {
